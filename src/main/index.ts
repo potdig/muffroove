@@ -1,7 +1,8 @@
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
-import { BrowserWindow, app, ipcMain, shell } from 'electron'
+import { BrowserWindow, app, shell } from 'electron'
 import { join } from 'path'
 import icon from '../../resources/icon.png?asset'
+import { handleIpc } from './ipc'
 
 function createWindow(): void {
   // Create the browser window.
@@ -35,10 +36,7 @@ function createWindow(): void {
   }
 
   // Handle IPC
-  ipcMain.handle('play', () => {
-    console.log('Now Playing')
-    return 'Now Playing'
-  })
+  handleIpc()
 }
 
 // This method will be called when Electron has finished
