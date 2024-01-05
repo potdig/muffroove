@@ -4,7 +4,10 @@ import { CustomAPI } from './custom-api'
 
 // Custom APIs for renderer
 const api: CustomAPI = {
-  play: () => ipcRenderer.invoke('play')
+  play: () => ipcRenderer.invoke('play'),
+  openFolder: () => {
+    return ipcRenderer.invoke('openFolder')
+  }
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

@@ -24,20 +24,22 @@
   }
 </script>
 
-<div id="playlist-container">
-  <div id="playlist" bind:this={playlist}>
-    {#each musics as music}
-      <div class="music">
-        <hr />
-        <div>
-          <p class="title">{music.title}</p>
-          <p class="artist">{music.artist}</p>
+{#if musics}
+  <div id="playlist-container">
+    <div id="playlist" bind:this={playlist}>
+      {#each musics as music}
+        <div class="music">
+          <hr />
+          <div>
+            <p class="title">{music.title}</p>
+            <p class="artist">{music.artist}</p>
+          </div>
         </div>
-      </div>
-    {/each}
+      {/each}
+    </div>
+    <hr />
   </div>
-  <hr />
-</div>
+{/if}
 
 <style>
   hr {
