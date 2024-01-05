@@ -1,4 +1,6 @@
 import { dialog, ipcMain } from 'electron'
+import fs from 'fs'
+import { sep } from 'path'
 
 function handleIpc() {
   ipcMain.handle('play', () => {
@@ -10,8 +12,15 @@ function handleIpc() {
     const dirPath = dialog.showOpenDialogSync({
       properties: ['openDirectory']
     })
-    console.log(dirPath)
-    return dirPath
+    if (!dirPath) {
+      return undefined
+    }
+    const files = fs.readdirSync(dirPath[0])
+    const mp3s = files
+    .filter(file => file.match(/^.+\.mp3$/))
+    .map(file => [dirPath, file].join(sep))
+    console.log(mp3s)
+    return mp3s
   })
 }
 
