@@ -1,14 +1,6 @@
 import { electronAPI } from '@electron-toolkit/preload'
-import { contextBridge, ipcRenderer } from 'electron'
-import { CustomAPI } from './custom-api'
-
-// Custom APIs for renderer
-const api: CustomAPI = {
-  play: () => ipcRenderer.invoke('play'),
-  openFolder: () => {
-    return ipcRenderer.invoke('openFolder')
-  }
-}
+import { contextBridge } from 'electron'
+import { customApi } from './custom-api'
 
 // Use `contextBridge` APIs to expose Electron APIs to
 // renderer only if context isolation is enabled, otherwise
@@ -16,7 +8,7 @@ const api: CustomAPI = {
 if (process.contextIsolated) {
   try {
     contextBridge.exposeInMainWorld('electron', electronAPI)
-    contextBridge.exposeInMainWorld('api', api)
+    contextBridge.exposeInMainWorld('api', customApi)
   } catch (error) {
     console.error(error)
   }
@@ -24,5 +16,5 @@ if (process.contextIsolated) {
   // @ts-ignore (define in dts)
   window.electron = electronAPI
   // @ts-ignore (define in dts)
-  window.api = api
+  window.api = customApi
 }
