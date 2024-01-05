@@ -1,4 +1,6 @@
 <script lang="ts">
+  import Sortable from 'sortablejs'
+
   let musics = [
     {
       title: 'A',
@@ -13,16 +15,27 @@
       artist: 'c'
     }
   ]
+
+  let playlist
+  $: {
+    if (playlist) {
+      Sortable.create(playlist)
+    }
+  }
 </script>
 
-<div id="playlist">
-  {#each musics as music}
-    <hr />
-    <div>
-      <p class="title">{music.title}</p>
-      <p class="artist">{music.artist}</p>
-    </div>
-  {/each}
+<div id="playlist-container">
+  <div id="playlist" bind:this={playlist}>
+    {#each musics as music}
+      <div class="music">
+        <hr />
+        <div>
+          <p class="title">{music.title}</p>
+          <p class="artist">{music.artist}</p>
+        </div>
+      </div>
+    {/each}
+  </div>
   <hr />
 </div>
 
