@@ -1,7 +1,6 @@
 <script lang="ts">
-  function play() {
-    window.api.play()
-  }
+  import Controller from './components/Controller.svelte'
+  import Playlist from './components/Playlist.svelte'
 </script>
 
 <div class="container">
@@ -10,24 +9,31 @@
   </header>
 
   <main>
-    <button on:click={play}>&gt;</button>
+    <Controller></Controller>
+    <Playlist></Playlist>
   </main>
 </div>
 
-<style>
+<style lang="scss">
   .container {
     flex: 1;
     display: flex;
     flex-direction: column;
     margin: 0;
+    height: 100%;
   }
 
   header {
     position: relative;
     display: flex;
-    flex: 1;
     justify-content: center;
     align-items: center;
     height: 24px;
+  }
+
+  main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
   }
 </style>

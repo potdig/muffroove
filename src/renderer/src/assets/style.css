@@ -52,3 +52,8 @@ a {
 a:hover {
   border-bottom: 1px solid;
 }
+
+#app {
+  width: 100vw;
+  height: 100vh;
+}
