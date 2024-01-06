@@ -7,10 +7,9 @@ type CustomAPI = {
 
 const customApi: CustomAPI = {
   play: () => ipcRenderer.invoke('play'),
-  openFolder: () => {
-    return ipcRenderer.invoke('openFolder')
+  openFolder: async () => {
+    return await ipcRenderer.invoke('openFolder')
   }
 }
 
 export { customApi }
-

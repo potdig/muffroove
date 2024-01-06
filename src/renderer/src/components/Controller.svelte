@@ -3,8 +3,8 @@
     window.api.play()
   }
 
-  function openFolder() {
-    window.api.openFolder()
+  async function openFolder() {
+    console.log(await window.api.openFolder())
   }
 </script>
 
