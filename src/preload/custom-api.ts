@@ -1,12 +1,12 @@
 import { ipcRenderer } from 'electron'
 
 type CustomAPI = {
-  play: () => unknown
+  loadFile: (string) => unknown
   openFolder: () => unknown
 }
 
 const customApi: CustomAPI = {
-  play: () => ipcRenderer.invoke('play'),
+  loadFile: async path => await ipcRenderer.invoke('loadFile', path),
   openFolder: async () => await ipcRenderer.invoke('openFolder')
 }
 

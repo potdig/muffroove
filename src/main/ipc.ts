@@ -5,9 +5,10 @@ import { sep } from 'path'
 import { Music } from '../types/music'
 
 function handleIpc() {
-  ipcMain.handle('play', () => {
-    console.log('Now Playing')
-    return 'Now Playing'
+  ipcMain.handle('loadFile', (_, path) => {
+    console.log(`Now Playing: ${path}`)
+    const base64 = fs.readFileSync(path, { encoding: 'base64' })
+    return `data:audio/mpeg;base64,${base64}`
   })
 
   ipcMain.handle('openFolder', async (): Promise<Music[]> => {

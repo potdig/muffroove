@@ -1,8 +1,12 @@
 <script lang="ts">
+  import { playSound } from '../lib/player'
   import { musics } from '../stores/musics'
 
-  function play() {
-    window.api.play()
+  async function play() {
+    if ($musics.length > 0) {
+      const music = await window.api.loadFile($musics[0].path)
+      playSound(music)
+    }
   }
 
   async function openFolder() {
