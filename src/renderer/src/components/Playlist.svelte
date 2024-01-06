@@ -10,7 +10,7 @@
   }
 </script>
 
-{#if musics}
+{#if $musics.length > 0}
   <div id="playlist-container">
     <div id="playlist" bind:this={playlist}>
       {#each $musics as music}
@@ -25,15 +25,20 @@
     </div>
     <hr />
   </div>
+{:else}
+  <p>Open the folder includes MP3.</p>
 {/if}
 
 <style>
+  #playlist-container {
+    overflow: auto;
+  }
+
   hr {
     border-top: 1px solid gray;
   }
 
   #playlist {
-    overflow-y: scroll;
     flex: 1;
   }
 

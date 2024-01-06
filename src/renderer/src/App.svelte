@@ -6,10 +6,10 @@
 <div class="container">
   <header>
     <p>Muffroove</p>
+    <Controller></Controller>
   </header>
 
   <main>
-    <Controller></Controller>
     <Playlist></Playlist>
   </main>
 </div>
@@ -17,23 +17,26 @@
 <style lang="scss">
   .container {
     flex: 1;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-rows: auto 1fr;
     margin: 0;
-    height: 100%;
+    height: 100vh;
+    overflow: hidden;
   }
 
   header {
     position: relative;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 24px;
   }
 
   main {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-auto-flow: column;
+    height: 100%;
+    overflow: auto;
   }
 </style>
