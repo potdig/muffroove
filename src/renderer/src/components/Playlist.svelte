@@ -1,6 +1,6 @@
 <script lang="ts">
   import Sortable from 'sortablejs'
-  import { musics } from '../stores/musics'
+  import { currentIndex, musics, nowPlaying } from '../stores/musics'
 
   let playlist
   $: {
@@ -13,8 +13,10 @@
 {#if $musics.length > 0}
   <div id="playlist-container">
     <div id="playlist" bind:this={playlist}>
-      {#each $musics as music}
-        <div class="music">
+      {#each $musics as music, index}
+        <div
+          class="music {index === $currentIndex ? 'current' : ''} {$nowPlaying ? 'playing' : ''}"
+        >
           <hr />
           <div>
             <p class="title">{music.title}</p>
@@ -29,7 +31,7 @@
   <p>Open the folder includes MP3.</p>
 {/if}
 
-<style>
+<style lang="scss">
   #playlist-container {
     overflow: auto;
   }
@@ -40,6 +42,14 @@
 
   #playlist {
     flex: 1;
+  }
+
+  .current {
+    background-color: rgba($color: cornflowerblue, $alpha: 0.4);
+
+    &.playing {
+      background-color: rgba($color: green, $alpha: 0.4);
+    }
   }
 
   .title {

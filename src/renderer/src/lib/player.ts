@@ -1,10 +1,25 @@
 import { Howl } from 'howler'
+import { nowPlaying } from '../stores/musics'
 
+let currentSound: Howl
 function playSound(path: string) {
-  const sound = new Howl({
+  currentSound = new Howl({
     src: [path]
   })
-  sound.play()
+  currentSound.on('play', () => {
+    nowPlaying.set(true)
+  })
+  currentSound.on('stop', () => {
+    nowPlaying.set(false)
+  })
+  currentSound.on('end', () => {
+    nowPlaying.set(false)
+  })
+  currentSound.play()
 }
 
-export { playSound }
+function stopSound() {
+  currentSound.stop()
+}
+
+export { playSound, stopSound }
