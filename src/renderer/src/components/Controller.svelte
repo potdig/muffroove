@@ -1,10 +1,12 @@
 <script lang="ts">
+  import { musics } from '../stores/musics'
+
   function play() {
     window.api.play()
   }
 
   async function openFolder() {
-    console.log(await window.api.openFolder())
+    musics.set(await window.api.openFolder())
   }
 </script>
 

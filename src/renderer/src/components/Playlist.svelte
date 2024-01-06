@@ -1,20 +1,6 @@
 <script lang="ts">
   import Sortable from 'sortablejs'
-
-  let musics = [
-    {
-      title: 'A',
-      artist: 'a'
-    },
-    {
-      title: 'B',
-      artist: 'b'
-    },
-    {
-      title: 'C',
-      artist: 'c'
-    }
-  ]
+  import { musics } from '../stores/musics'
 
   let playlist
   $: {
@@ -27,7 +13,7 @@
 {#if musics}
   <div id="playlist-container">
     <div id="playlist" bind:this={playlist}>
-      {#each musics as music}
+      {#each $musics as music}
         <div class="music">
           <hr />
           <div>
