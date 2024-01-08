@@ -2,7 +2,7 @@
   import { playSound, stopSound } from '../lib/player'
   import { currentIndex, musics, nowPlaying } from '../stores/musics'
 
-  function next() {
+  function next(): void {
     if ($currentIndex < $musics.length - 1) {
       currentIndex.update(i => i + 1)
     }
@@ -12,7 +12,7 @@
     }
   }
 
-  function prev() {
+  function prev(): void {
     if ($currentIndex > 0) {
       currentIndex.update(i => i - 1)
     }
@@ -22,18 +22,18 @@
     }
   }
 
-  async function play() {
+  async function play(): Promise<void> {
     if ($musics.length > 0) {
       const music = await window.api.loadFile($musics[$currentIndex].path)
       playSound(music)
     }
   }
 
-  function stop() {
+  function stop(): void {
     stopSound()
   }
 
-  async function openFolder() {
+  async function openFolder(): Promise<void> {
     musics.set(await window.api.openFolder())
   }
 </script>

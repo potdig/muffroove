@@ -1,6 +1,6 @@
 import { WebSocketServer } from 'ws'
 
-function setUpWebSocketServer() {
+function setUpWebSocketServer(): void {
   const wss = new WebSocketServer({ port: 8888 })
   wss.on('connection', ws => {
     ws.on('message', message => {

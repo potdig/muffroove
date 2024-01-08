@@ -4,7 +4,7 @@ import { parseFile } from 'music-metadata'
 import { sep } from 'path'
 import { Music } from '../types/music'
 
-function handleIpc() {
+function handleIpc(): void {
   ipcMain.handle('loadFile', (_, path) => {
     console.log(`Now Playing: ${path}`)
     const base64 = fs.readFileSync(path, { encoding: 'base64' })

@@ -2,7 +2,7 @@ import { Howl } from 'howler'
 import { nowPlaying } from '../stores/musics'
 
 let currentSound: Howl
-function playSound(path: string) {
+function playSound(path: string): void {
   currentSound = new Howl({
     src: [path]
   })
@@ -18,7 +18,7 @@ function playSound(path: string) {
   currentSound.play()
 }
 
-function stopSound() {
+function stopSound(): void {
   currentSound.stop()
 }
 
