@@ -19,7 +19,7 @@ function playSound(path: string): void {
 }
 
 function stopSound(): void {
-  currentSound.stop()
+  currentSound?.stop()
 }
 
 export { playSound, stopSound }

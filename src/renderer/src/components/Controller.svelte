@@ -35,7 +35,12 @@
   }
 
   async function openFolder(): Promise<void> {
-    musics.set(await window.api.openFolder())
+    const loaded = await window.api.openFolder()
+    if (loaded.length > 0) {
+      stopSound()
+      currentIndex.set(0)
+      musics.set(loaded)
+    }
   }
 </script>
 
