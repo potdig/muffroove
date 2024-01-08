@@ -6,7 +6,7 @@
     "src/renderer/src/**/*.svelte",
     "src/preload/*.d.ts",
     "src/types/*.d.ts"
-  ],
+, "src/renderer/global.d.ts"  ],
   "compilerOptions": {
     "verbatimModuleSyntax": true,
     "useDefineForClassFields": true,
