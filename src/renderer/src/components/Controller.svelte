@@ -1,6 +1,6 @@
 <script lang="ts">
   import { playSound, stopSound } from '../lib/player'
-  import { currentIndex, musics, nowPlaying } from '../stores/musics'
+  import { currentIndex, currentMusic, musics, nowPlaying } from '../stores/musics'
 
   function next(): void {
     if ($currentIndex < $musics.length - 1) {
@@ -26,6 +26,7 @@
     if ($musics.length > 0) {
       const music = await window.api.loadFile($musics[$currentIndex].path)
       playSound(music)
+      window.api.sendMusicInfo($currentMusic)
     }
   }
 

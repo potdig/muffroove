@@ -1,14 +1,19 @@
 import { dialog, ipcMain } from 'electron'
-import fs from 'fs'
+import { readFileSync, readdirSync } from 'fs'
 import { parseFile } from 'music-metadata'
 import { sep } from 'path'
 import { Music } from '../types/music'
+import { sendMusicInfo } from './websocket'
 
 function handleIpc(): void {
   ipcMain.handle('loadFile', (_, path) => {
     console.log(`Now Playing: ${path}`)
-    const base64 = fs.readFileSync(path, { encoding: 'base64' })
+    const base64 = readFileSync(path, { encoding: 'base64' })
     return `data:audio/mpeg;base64,${base64}`
+  })
+
+  ipcMain.handle('sendMusicInfo', (_, music) => {
+    sendMusicInfo(music)
   })
 
   ipcMain.handle('openFolder', async (): Promise<Music[]> => {
@@ -19,7 +24,7 @@ function handleIpc(): void {
       return []
     }
     console.log(dirPath)
-    const files = fs.readdirSync(dirPath[0])
+    const files = readdirSync(dirPath[0])
     const mp3s = await Promise.all(
       files
         .filter(file => file.match(/^.+\.mp3$/))
