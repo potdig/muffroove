@@ -1,6 +1,7 @@
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import { BrowserWindow, app, shell } from 'electron'
 import { join } from 'path'
+import { WebSocketServer } from 'ws'
 import icon from '../../resources/icon.png?asset'
 import { handleIpc } from './ipc'
 
@@ -22,7 +23,7 @@ function createWindow(): void {
     mainWindow.show()
   })
 
-  mainWindow.webContents.setWindowOpenHandler((details) => {
+  mainWindow.webContents.setWindowOpenHandler(details => {
     shell.openExternal(details.url)
     return { action: 'deny' }
   })
@@ -59,6 +60,17 @@ app.whenReady().then(() => {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
+  })
+
+  const wss = new WebSocketServer({ port: 8888 })
+  wss.on('connection', ws => {
+    ws.on('message', message => {
+      console.log('Message: %s', message)
+      const msgString = message.toString()
+      if (msgString === 'get') {
+        ws.send('hi')
+      }
+    })
   })
 })
 

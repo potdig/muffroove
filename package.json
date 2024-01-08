@@ -25,7 +25,8 @@
     "electron-updater": "^6.1.1",
     "howler": "^2.2.4",
     "music-metadata": "^7.14.0",
-    "sortablejs": "^1.15.1"
+    "sortablejs": "^1.15.1",
+    "ws": "^8.16.0"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config-prettier": "^1.0.1",
@@ -35,6 +36,7 @@
     "@types/howler": "^2.2.11",
     "@types/node": "^18.17.5",
     "@types/sortablejs": "^1.15.7",
+    "@types/ws": "^8.5.10",
     "electron": "^25.6.0",
     "electron-builder": "^24.6.3",
     "electron-vite": "^1.0.27",
