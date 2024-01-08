@@ -1,9 +1,9 @@
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import { BrowserWindow, app, shell } from 'electron'
 import { join } from 'path'
-import { WebSocketServer } from 'ws'
 import icon from '../../resources/icon.png?asset'
 import { handleIpc } from './ipc'
+import { setUpWebSocketServer } from './websocket'
 
 function createWindow(): void {
   // Create the browser window.
@@ -62,16 +62,7 @@ app.whenReady().then(() => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
 
-  const wss = new WebSocketServer({ port: 8888 })
-  wss.on('connection', ws => {
-    ws.on('message', message => {
-      console.log('Message: %s', message)
-      const msgString = message.toString()
-      if (msgString === 'get') {
-        ws.send('hi')
-      }
-    })
-  })
+  setUpWebSocketServer()
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common
