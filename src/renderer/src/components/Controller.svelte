@@ -1,6 +1,6 @@
 <script lang="ts">
   import { volume } from '../stores/misc'
-  import { controllable, currentIndex, musics, stateControl } from '../stores/musics'
+  import { controllable, currentIndex, currentMusic, musics, stateControl } from '../stores/musics'
 
   function next(): void {
     stateControl.set('next')
@@ -28,6 +28,7 @@
       stateControl.set('stop')
       currentIndex.set(0)
       musics.set(loaded)
+      currentMusic.set(loaded[0])
     }
   }
 </script>

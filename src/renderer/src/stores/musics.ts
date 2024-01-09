@@ -2,7 +2,7 @@ import { get, writable, type Writable } from 'svelte/store'
 import type { Music } from '../../../types/music'
 import type { PlayerState } from '../../../types/player-state'
 import { changeVolume, pauseSound, playSound, resumeSound, stopSound } from '../lib/player'
-import { volume } from './misc'
+import { loopPlaylist, volume } from './misc'
 
 const musics: Writable<Music[]> = writable([])
 const currentIndex: Writable<number> = writable(0)
@@ -21,7 +21,8 @@ stateControl.subscribe(control => {
   const ms = get(musics)
   const ci = get(currentIndex)
   const np = get(nowPlaying)
-  const pl = get(playerState)
+  const ps = get(playerState)
+  const lp = get(loopPlaylist)
 
   switch (control) {
     case 'stop':
@@ -31,7 +32,7 @@ stateControl.subscribe(control => {
       break
     case 'play':
       if (!np) {
-        if (pl === 'pause') {
+        if (ps === 'pause') {
           resumeSound()
         } else {
           playSound(ms[ci])
@@ -43,8 +44,13 @@ stateControl.subscribe(control => {
         currentIndex.update(i => i + 1)
         playerState.set('next')
       } else {
-        stateControl.set('stop')
-        break
+        if (lp) {
+          currentIndex.set(0)
+          playerState.set('next')
+        } else {
+          stateControl.set('stop')
+          break
+        }
       }
       if (np) {
         stopSound()
@@ -57,10 +63,10 @@ stateControl.subscribe(control => {
     case 'prev':
       if (ci > 0) {
         currentIndex.update(i => i - 1)
-        playerState.set('prev')
       } else {
-        break
+        currentIndex.set(ms.length - 1)
       }
+      playerState.set('prev')
       if (np) {
         stopSound()
         nowPlaying.set(false)
