@@ -1,3 +1,4 @@
+import { createHash } from 'crypto'
 import { app, dialog, ipcMain } from 'electron'
 import { readFileSync, readdirSync } from 'fs'
 import { parseFile } from 'music-metadata'
@@ -32,7 +33,7 @@ function handleIpc(): void {
         .map(async path => {
           const metadata = await parseFile(path)
           const { title, artist } = metadata.common
-          return { path, title, artist }
+          return { path, title, artist, hash: createHash('md5').update(path).digest('hex') }
         })
     )
     console.log(mp3s)

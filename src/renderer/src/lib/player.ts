@@ -1,6 +1,6 @@
 import { Howl } from 'howler'
 import type { Music } from '../../../types/music'
-import { controllable, nowPlaying, stateControl } from '../stores/musics'
+import { controllable, currentMusic, nowPlaying, stateControl } from '../stores/musics'
 
 let currentSound: Howl
 
@@ -13,6 +13,7 @@ function playSound(music: Music): void {
       nowPlaying.set(true)
       // must change here to prevent duplicated control
       controllable.set(true)
+      currentMusic.set(music)
       window.api.sendMusicInfo(music)
     })
     currentSound.on('end', () => {

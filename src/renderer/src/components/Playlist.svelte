@@ -1,21 +1,50 @@
 <script lang="ts">
   import Sortable from 'sortablejs'
-  import { currentIndex, musics, nowPlaying } from '../stores/musics'
+  import { currentIndex, currentMusic, musics, nowPlaying } from '../stores/musics'
 
-  let playlist
+  let playlistContainer: HTMLElement
+  let playlist: HTMLElement
+  let musicTags: HTMLElement[] = []
+
   $: {
     if (playlist) {
-      Sortable.create(playlist)
+      Sortable.create(playlist, {
+        scroll: playlistContainer,
+        store: {
+          set: sortable => {
+            $musics = sortable.toArray().map(id => $musics.find(music => music.hash == id))
+            $currentIndex = $musics.findIndex(music => music.hash === $currentMusic.hash)
+          },
+          get: sortable => sortable.toArray()
+        }
+      })
+    }
+  }
+
+  $: {
+    scrollTo($currentIndex)
+  }
+
+  function scrollTo(index: number): void {
+    if (musicTags.length > 0) {
+      console.log('oi')
+      musicTags[index].scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest'
+      })
     }
   }
 </script>
 
 {#if $musics.length > 0}
-  <div id="playlist-container">
+  <div id="playlist-container" bind:this={playlistContainer}>
     <div id="playlist" bind:this={playlist}>
-      {#each $musics as music, index}
+      {#each $musics as music, index (music.hash)}
         <div
+          id="music-{music.hash}"
+          data-id={music.hash}
           class="music {index === $currentIndex ? 'current' : ''} {$nowPlaying ? 'playing' : ''}"
+          bind:this={musicTags[index]}
         >
           <hr />
           <div>
