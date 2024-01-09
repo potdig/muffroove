@@ -17,6 +17,10 @@
     stateControl.set('stop')
   }
 
+  function pause(): void {
+    stateControl.set('pause')
+  }
+
   async function openFolder(): Promise<void> {
     const loaded = await window.api.openFolder()
     if (loaded.length > 0) {
@@ -32,7 +36,7 @@
     <button on:click={prev} disabled={!$controllable}>&lt;&lt;</button>
     <button on:click={stop} disabled={!$controllable}>[]</button>
     <button on:click={play} disabled={!$controllable}>&gt;</button>
-    <button on:click={play} disabled={!$controllable}>||</button>
+    <button on:click={pause} disabled={!$controllable}>||</button>
     <button on:click={next} disabled={!$controllable}>&gt;&gt;</button>
     <button on:click={openFolder} disabled={!$controllable}>open folder</button>
   </div>

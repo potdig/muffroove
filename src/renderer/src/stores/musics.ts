@@ -1,7 +1,7 @@
 import { derived, get, writable, type Writable } from 'svelte/store'
 import type { Music } from '../../../types/music'
 import type { PlayerState } from '../../../types/player-state'
-import { changeVolume, playSound, stopSound } from '../lib/player'
+import { changeVolume, pauseSound, playSound, resumeSound, stopSound } from '../lib/player'
 
 const musics: Writable<Music[]> = writable([])
 const currentIndex: Writable<number> = writable(0)
@@ -27,18 +27,21 @@ stateControl.subscribe(control => {
   const ms = get(musics)
   const ci = get(currentIndex)
   const np = get(nowPlaying)
+  const pl = get(playerState)
 
   switch (control) {
     case 'stop':
-      if (np) {
-        stopSound()
-        nowPlaying.set(false)
-      }
+      stopSound()
+      nowPlaying.set(false)
       controllable.set(true)
       break
     case 'play':
       if (!np) {
-        playSound(ms[ci])
+        if (pl === 'pause') {
+          resumeSound()
+        } else {
+          playSound(ms[ci])
+        }
       }
       break
     case 'next':
@@ -73,6 +76,12 @@ stateControl.subscribe(control => {
       }
       break
     case 'pause':
+      if (np) {
+        pauseSound()
+        nowPlaying.set(false)
+        playerState.set('pause')
+        controllable.set(true)
+      }
       break
   }
 })
