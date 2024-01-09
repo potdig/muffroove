@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { controllable, currentIndex, musics, stateControl, volume } from '../stores/musics'
+  import { volume } from '../stores/misc'
+  import { controllable, currentIndex, musics, stateControl } from '../stores/musics'
 
   function next(): void {
     stateControl.set('next')
