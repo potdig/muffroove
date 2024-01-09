@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { stopSound } from '../lib/player'
   import { controllable, currentIndex, musics, stateControl, volume } from '../stores/musics'
 
   function next(): void {
@@ -21,7 +20,7 @@
   async function openFolder(): Promise<void> {
     const loaded = await window.api.openFolder()
     if (loaded.length > 0) {
-      stopSound()
+      stateControl.set('stop')
       currentIndex.set(0)
       musics.set(loaded)
     }
