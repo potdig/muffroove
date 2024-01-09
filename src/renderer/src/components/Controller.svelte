@@ -1,6 +1,6 @@
 <script lang="ts">
   import { stopSound } from '../lib/player'
-  import { currentIndex, musics, stateControl } from '../stores/musics'
+  import { controllable, currentIndex, musics, stateControl } from '../stores/musics'
 
   function next(): void {
     stateControl.set('next')
@@ -29,12 +29,12 @@
 </script>
 
 <div id="controller">
-  <button on:click={prev}>&lt;&lt;</button>
-  <button on:click={stop}>[]</button>
-  <button on:click={play}>&gt;</button>
-  <button on:click={play}>||</button>
-  <button on:click={next}>&gt;&gt;</button>
-  <button on:click={openFolder}>open folder</button>
+  <button on:click={prev} disabled={!$controllable}>&lt;&lt;</button>
+  <button on:click={stop} disabled={!$controllable}>[]</button>
+  <button on:click={play} disabled={!$controllable}>&gt;</button>
+  <button on:click={play} disabled={!$controllable}>||</button>
+  <button on:click={next} disabled={!$controllable}>&gt;&gt;</button>
+  <button on:click={openFolder} disabled={!$controllable}>open folder</button>
 </div>
 
 <style>

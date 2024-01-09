@@ -1,5 +1,5 @@
 import { Howl } from 'howler'
-import { nowPlaying, stateControl } from '../stores/musics'
+import { controllable, nowPlaying, stateControl } from '../stores/musics'
 
 let currentSound: Howl
 function playSound(path: string): void {
@@ -8,6 +8,8 @@ function playSound(path: string): void {
   })
   currentSound.on('play', () => {
     nowPlaying.set(true)
+    // must change here to prevent duplicated control
+    controllable.set(true)
   })
   currentSound.on('end', () => {
     stateControl.set('next')
