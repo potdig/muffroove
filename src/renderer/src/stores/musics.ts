@@ -1,7 +1,7 @@
 import { derived, get, writable, type Writable } from 'svelte/store'
 import type { Music } from '../../../types/music'
 import type { PlayerState } from '../../../types/player-state'
-import { playSound, stopSound } from '../lib/player'
+import { changeVolume, playSound, stopSound } from '../lib/player'
 
 const musics: Writable<Music[]> = writable([])
 const currentIndex: Writable<number> = writable(0)
@@ -9,6 +9,9 @@ const nowPlaying: Writable<boolean> = writable(false)
 const stateControl: Writable<PlayerState> = writable('stop')
 const playerState: Writable<PlayerState> = writable('stop')
 const controllable: Writable<boolean> = writable(true)
+const volume: Writable<number> = writable(1.0, set => {
+  set(Howler.volume())
+})
 
 const currentMusic = derived(
   [musics, currentIndex],
@@ -78,4 +81,8 @@ playerState.subscribe(state => {
   console.log(`control fired: ${state}`)
 })
 
-export { controllable, currentIndex, currentMusic, musics, nowPlaying, stateControl }
+volume.subscribe(volume => {
+  changeVolume(volume)
+})
+
+export { controllable, currentIndex, currentMusic, musics, nowPlaying, stateControl, volume }

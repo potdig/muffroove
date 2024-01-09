@@ -1,6 +1,6 @@
 <script lang="ts">
   import { stopSound } from '../lib/player'
-  import { controllable, currentIndex, musics, stateControl } from '../stores/musics'
+  import { controllable, currentIndex, musics, stateControl, volume } from '../stores/musics'
 
   function next(): void {
     stateControl.set('next')
@@ -29,17 +29,35 @@
 </script>
 
 <div id="controller">
-  <button on:click={prev} disabled={!$controllable}>&lt;&lt;</button>
-  <button on:click={stop} disabled={!$controllable}>[]</button>
-  <button on:click={play} disabled={!$controllable}>&gt;</button>
-  <button on:click={play} disabled={!$controllable}>||</button>
-  <button on:click={next} disabled={!$controllable}>&gt;&gt;</button>
-  <button on:click={openFolder} disabled={!$controllable}>open folder</button>
+  <div id="buttons">
+    <button on:click={prev} disabled={!$controllable}>&lt;&lt;</button>
+    <button on:click={stop} disabled={!$controllable}>[]</button>
+    <button on:click={play} disabled={!$controllable}>&gt;</button>
+    <button on:click={play} disabled={!$controllable}>||</button>
+    <button on:click={next} disabled={!$controllable}>&gt;&gt;</button>
+    <button on:click={openFolder} disabled={!$controllable}>open folder</button>
+  </div>
+  <div id="volume">
+    <input type="range" bind:value={$volume} min="0" max="1" step="0.01" />
+  </div>
 </div>
 
 <style>
   #controller {
+    width: 100%;
+    max-width: 300px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
+  }
+
+  #buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  #volume input {
+    width: 100%;
   }
 </style>

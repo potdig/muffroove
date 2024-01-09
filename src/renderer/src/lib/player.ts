@@ -25,4 +25,7 @@ function stopSound(): void {
   currentSound?.stop()
 }
 
-export { playSound, stopSound }
+function changeVolume(volume: number): void {
+  Howler.volume(volume)
+}
+export { changeVolume, playSound, stopSound }
