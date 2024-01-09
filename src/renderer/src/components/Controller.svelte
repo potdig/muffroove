@@ -1,21 +1,21 @@
 <script lang="ts">
   import { stopSound } from '../lib/player'
-  import { currentIndex, musics, setPlayerState } from '../stores/musics'
+  import { currentIndex, musics, stateControl } from '../stores/musics'
 
   function next(): void {
-    setPlayerState('next')
+    stateControl.set('next')
   }
 
   function prev(): void {
-    setPlayerState('prev')
+    stateControl.set('prev')
   }
 
   function play(): void {
-    setPlayerState('play')
+    stateControl.set('play')
   }
 
   function stop(): void {
-    setPlayerState('stop')
+    stateControl.set('stop')
   }
 
   async function openFolder(): Promise<void> {

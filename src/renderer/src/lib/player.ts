@@ -1,5 +1,5 @@
 import { Howl } from 'howler'
-import { nowPlaying } from '../stores/musics'
+import { nowPlaying, stateControl } from '../stores/musics'
 
 let currentSound: Howl
 function playSound(path: string): void {
@@ -9,11 +9,8 @@ function playSound(path: string): void {
   currentSound.on('play', () => {
     nowPlaying.set(true)
   })
-  currentSound.on('stop', () => {
-    nowPlaying.set(false)
-  })
   currentSound.on('end', () => {
-    nowPlaying.set(false)
+    stateControl.set('next')
   })
   currentSound.play()
 }
