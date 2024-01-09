@@ -35,9 +35,7 @@ stateControl.subscribe(control => {
       break
     case 'play':
       if (!np) {
-        window.api.loadFile(ms[ci].path).then(music => {
-          playSound(music)
-        })
+        playSound(ms[ci])
       }
       break
     case 'next':
