@@ -34,6 +34,7 @@
 <style lang="scss">
   #playlist-container {
     overflow: auto;
+    width: 100%;
   }
 
   hr {

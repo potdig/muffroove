@@ -1,4 +1,4 @@
-import { dialog, ipcMain } from 'electron'
+import { app, dialog, ipcMain } from 'electron'
 import { readFileSync, readdirSync } from 'fs'
 import { parseFile } from 'music-metadata'
 import { sep } from 'path'
@@ -37,6 +37,10 @@ function handleIpc(): void {
     )
     console.log(mp3s)
     return mp3s
+  })
+
+  ipcMain.handle('quit', () => {
+    app.quit()
   })
 }
 

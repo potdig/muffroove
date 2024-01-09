@@ -1,15 +1,20 @@
 <script lang="ts">
   import Controller from './components/Controller.svelte'
   import Playlist from './components/Playlist.svelte'
+
+  function quit(): void {
+    window.api.quit()
+  }
 </script>
 
 <div class="container">
   <header>
     <p>Muffroove</p>
-    <Controller></Controller>
+    <button on:click={quit}>x</button>
   </header>
 
   <main>
+    <Controller></Controller>
     <Playlist></Playlist>
   </main>
 </div>
@@ -28,14 +33,23 @@
   header {
     position: relative;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
+    user-select: none;
+    -webkit-app-region: drag;
+
+    button {
+      position: absolute;
+      right: 0;
+      -webkit-app-region: no-drag;
+    }
   }
 
   main {
-    display: grid;
-    grid-auto-flow: column;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     height: 100%;
     overflow: auto;
   }
