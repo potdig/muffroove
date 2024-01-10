@@ -57,7 +57,7 @@
           tabindex={index}
         >
           <hr />
-          <div>
+          <div class="music-info">
             <p class="title">{music.title}</p>
             <p class="artist">{music.artist}</p>
           </div>
@@ -111,6 +111,14 @@
     pointer-events: none;
   }
 
+  .music-info {
+    padding: 8px;
+
+    p {
+      line-height: 1.3em;
+    }
+  }
+
   .current {
     background-color: rgba($color: cornflowerblue, $alpha: 0.4) !important;
 
@@ -121,6 +129,9 @@
 
   .title {
     font-size: 2em;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
 
   .artist {
