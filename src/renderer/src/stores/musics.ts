@@ -37,6 +37,9 @@ stateControl.subscribe(control => {
         } else {
           playSound(ms[ci])
         }
+      } else {
+        stopSound()
+        playSound(ms[ci])
       }
       break
     case 'next':
@@ -83,6 +86,13 @@ stateControl.subscribe(control => {
         controllable.set(true)
       }
       break
+    case 'replay':
+      playerState.set('replay')
+      if (np) {
+        stopSound()
+        nowPlaying.set(false)
+      }
+      stateControl.set('play')
   }
 })
 

@@ -1,6 +1,6 @@
 <script lang="ts">
   import Sortable from 'sortablejs'
-  import { currentIndex, currentMusic, musics, nowPlaying } from '../stores/musics'
+  import { currentIndex, currentMusic, musics, nowPlaying, stateControl } from '../stores/musics'
 
   let playlistContainer: HTMLElement
   let playlist: HTMLElement
@@ -25,9 +25,16 @@
     scrollTo($currentIndex)
   }
 
+  function switchMusic(e: MouseEvent): void {
+    const target = e.target as HTMLElement
+    $currentIndex = $musics.findIndex(
+      music => music.hash === target.attributes.getNamedItem('data-id').value
+    )
+    stateControl.set($nowPlaying ? 'replay' : 'play')
+  }
+
   function scrollTo(index: number): void {
     if (musicTags.length > 0) {
-      console.log('oi')
       musicTags[index].scrollIntoView({
         behavior: 'smooth',
         block: 'nearest'
@@ -45,6 +52,9 @@
           data-id={music.hash}
           class="music {index === $currentIndex ? 'current' : ''} {$nowPlaying ? 'playing' : ''}"
           bind:this={musicTags[index]}
+          on:dblclick|stopPropagation={switchMusic}
+          role="button"
+          tabindex={index}
         >
           <hr />
           <div>
@@ -93,11 +103,19 @@
     flex: 1;
   }
 
+  .music:hover {
+    background: rgba($color: cornflowerblue, $alpha: 0.2);
+  }
+
+  .music * {
+    pointer-events: none;
+  }
+
   .current {
-    background-color: rgba($color: cornflowerblue, $alpha: 0.4);
+    background-color: rgba($color: cornflowerblue, $alpha: 0.4) !important;
 
     &.playing {
-      background-color: rgba($color: green, $alpha: 0.4);
+      background-color: rgba($color: green, $alpha: 0.4) !important;
     }
   }
 

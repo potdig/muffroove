@@ -9,7 +9,14 @@
   import VolumeLow from 'svelte-material-icons/VolumeLow.svelte'
 
   import { volume } from '../stores/misc'
-  import { controllable, currentIndex, currentMusic, musics, stateControl } from '../stores/musics'
+  import {
+    controllable,
+    currentIndex,
+    currentMusic,
+    musics,
+    nowPlaying,
+    stateControl
+  } from '../stores/musics'
 
   const iconWidth = 24
 
@@ -26,7 +33,7 @@
   }
 
   function play(): void {
-    stateControl.set('play')
+    stateControl.set($nowPlaying ? 'replay' : 'play')
   }
 
   function stop(): void {

@@ -1,1 +1,1 @@
-export type PlayerState = 'stop' | 'play' | 'next' | 'prev' | 'pause'
+export type PlayerState = 'stop' | 'play' | 'next' | 'prev' | 'pause' | 'replay'
