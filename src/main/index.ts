@@ -2,12 +2,12 @@ import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import { BrowserWindow, app, shell } from 'electron'
 import { join } from 'path'
 import icon from '../../resources/icon.png?asset'
-import { getWindowSize, setWindowSize } from './config'
+import { loadWindowSize, saveWindowSize } from './config'
 import { handleIpc } from './ipc'
 import { setUpWebSocketServer } from './websocket'
 
 function createWindow(): void {
-  const windowSize = getWindowSize()
+  const windowSize = loadWindowSize()
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: windowSize[0],
@@ -41,7 +41,7 @@ function createWindow(): void {
 
   mainWindow.on('close', () => {
     const size = mainWindow.getSize()
-    setWindowSize([size[0], size[1]])
+    saveWindowSize([size[0], size[1]])
   })
   // Handle IPC
   handleIpc()

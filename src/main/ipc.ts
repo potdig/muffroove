@@ -4,7 +4,7 @@ import { readFileSync, readdirSync } from 'fs'
 import { parseFile } from 'music-metadata'
 import { sep } from 'path'
 import { Music } from '../types/music'
-import { getPlaylist, getVolume, setPlaylist, setVolume } from './config'
+import { loadPlaylist, loadVolume, savePlaylist, saveVolume } from './config'
 import { sendMusicInfo, setCurrentMusic } from './websocket'
 
 function handleIpc(): void {
@@ -47,19 +47,19 @@ function handleIpc(): void {
   })
 
   ipcMain.handle('saveVolume', (_, volume) => {
-    setVolume(volume)
+    saveVolume(volume)
   })
 
   ipcMain.handle('loadVolume', (): number => {
-    return getVolume()
+    return loadVolume()
   })
 
   ipcMain.handle('savePlaylist', (_, playlist) => {
-    setPlaylist(playlist)
+    savePlaylist(playlist)
   })
 
   ipcMain.handle('loadPlaylist', (): Music[] => {
-    return getPlaylist()
+    return loadPlaylist()
   })
 }
 
