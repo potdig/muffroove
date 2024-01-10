@@ -27,4 +27,21 @@ function savePlaylist(playlist: Music[]): void {
   store.set('playlist', playlist)
 }
 
-export { loadPlaylist, loadVolume, loadWindowSize, savePlaylist, saveVolume, saveWindowSize }
+function loadWebsocketPort(): number {
+  return store.get('websocketPort', 8888) as number
+}
+
+function saveWebsocketPort(port: number): void {
+  store.set('websocketPort', port)
+}
+
+export {
+  loadPlaylist,
+  loadVolume,
+  loadWebsocketPort,
+  loadWindowSize,
+  savePlaylist,
+  saveVolume,
+  saveWebsocketPort,
+  saveWindowSize
+}

@@ -1,12 +1,16 @@
 import { basename } from 'path'
 import { WebSocket, WebSocketServer } from 'ws'
 import { Music } from '../types/music'
+import { loadWebsocketPort } from './config'
 
-const wss: WebSocketServer = new WebSocketServer({ port: 8888 })
+let wss: WebSocketServer
 
 let currentMusic: Music | undefined
 
 function setUpWebSocketServer(): void {
+  const port = loadWebsocketPort()
+  wss = new WebSocketServer({ port })
+  console.log('Websocket server started with port: ' + port)
   wss.on('connection', ws => {
     sendMusicInfo(new Set([ws]))
   })

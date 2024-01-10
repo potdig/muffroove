@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Cog from 'svelte-material-icons/Cog.svelte'
   import FolderOpen from 'svelte-material-icons/FolderOpen.svelte'
   import Pause from 'svelte-material-icons/Pause.svelte'
   import Play from 'svelte-material-icons/Play.svelte'
@@ -17,8 +18,11 @@
     nowPlaying,
     stateControl
   } from '../stores/musics'
+  import Settings from './Settings.svelte'
 
   const iconWidth = 24
+
+  let settings: Settings
 
   $: volumeBackground = `linear-gradient(to right, #86a5b1 ${$volume * 100}%, rgba(0, 0, 0, 0) ${
     $volume * 100
@@ -58,6 +62,10 @@
       window.api.savePlaylist(loaded)
     }
   }
+
+  function openSettingsDialog(): void {
+    settings.open()
+  }
 </script>
 
 <div id="controller">
@@ -80,6 +88,9 @@
     <button on:click={openFolder} disabled={!$controllable}
       ><FolderOpen width={iconWidth} height={iconWidth} /></button
     >
+    <button on:click={openSettingsDialog}>
+      <Cog width={iconWidth} height={iconWidth} />
+    </button>
   </div>
   <div id="volume">
     <VolumeLow width={iconWidth} height={iconWidth} />
@@ -95,6 +106,7 @@
     <VolumeHigh width={iconWidth} height={iconWidth} />
   </div>
 </div>
+<Settings bind:this={settings} />
 
 <style lang="scss">
   #controller {
@@ -104,7 +116,7 @@
     flex-direction: column;
     justify-content: center;
     gap: 0.4em;
-    margin-bottom: 0.4em;
+    margin-block: 0.4em;
   }
 
   #buttons {

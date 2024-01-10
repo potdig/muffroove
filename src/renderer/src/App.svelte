@@ -34,7 +34,6 @@
   header {
     font-size: 1.4em;
     padding-block: 0.2em;
-    margin-bottom: 0.2em;
     position: relative;
     display: flex;
     flex-direction: row;
