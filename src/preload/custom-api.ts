@@ -11,6 +11,7 @@ const customApi: CustomAPI = {
   loadPlaylist: async () => await ipcRenderer.invoke('loadPlaylist'),
   saveWebsocketPort: port => ipcRenderer.invoke('saveWebsocketPort', port),
   loadWebsocketPort: async () => await ipcRenderer.invoke('loadWebsocketPort'),
+  restartWebsocketServer: async () => await ipcRenderer.invoke('restartWebsocketServer'),
   quit: () => ipcRenderer.invoke('quit')
 }
 

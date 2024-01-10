@@ -12,7 +12,7 @@ import {
   saveVolume,
   saveWebsocketPort
 } from './config'
-import { sendMusicInfo, setCurrentMusic } from './websocket'
+import { restartWebsocketServer, sendMusicInfo, setCurrentMusic } from './websocket'
 
 function handleIpc(): void {
   ipcMain.handle('loadFile', (_, path) => {
@@ -75,6 +75,17 @@ function handleIpc(): void {
 
   ipcMain.handle('loadWebsocketPort', (): number => {
     return loadWebsocketPort()
+  })
+
+  ipcMain.handle('restartWebsocketServer', () => {
+    const buttonIndex = dialog.showMessageBoxSync({
+      message: 'Websocket server restarts. Are you sure?',
+      buttons: ['YES', 'NO'],
+      defaultId: 1
+    })
+    if (buttonIndex === 0) {
+      restartWebsocketServer()
+    }
   })
 }
 

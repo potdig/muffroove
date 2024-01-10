@@ -18,6 +18,12 @@
   function close(): void {
     visibility = 'hidden'
   }
+
+  async function restartWebsocketServer(): Promise<void> {
+    window.api.saveWebsocketPort(websocketPort)
+    await window.api.restartWebsocketServer()
+    close()
+  }
 </script>
 
 <div id="background" style="visibility: {visibility};">
@@ -31,6 +37,9 @@
     <div id="button-area">
       <button on:click={ok}>OK</button>
       <button on:click={close}>Cancel</button>
+    </div>
+    <div id="danger-area">
+      <button on:click={restartWebsocketServer}>Restart websocket server</button>
     </div>
   </div>
 </div>
@@ -82,6 +91,12 @@
     gap: 24px;
   }
 
+  #danger-area {
+    display: flex;
+    justify-content: center;
+    margin-top: 48px;
+  }
+
   button {
     display: flex;
     align-items: center;
@@ -92,5 +107,10 @@
     border: 2px solid;
     border-radius: 8px;
     padding: 0.4em 0.8em;
+
+    #danger-area & {
+      border-color: deeppink;
+      color: deeppink;
+    }
   }
 </style>

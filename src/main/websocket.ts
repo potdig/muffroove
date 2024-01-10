@@ -8,9 +8,7 @@ let wss: WebSocketServer
 let currentMusic: Music | undefined
 
 function setUpWebSocketServer(): void {
-  const port = loadWebsocketPort()
-  wss = new WebSocketServer({ port })
-  console.log('Websocket server started with port: ' + port)
+  startWebsocketServer()
   wss.on('connection', ws => {
     sendMusicInfo(new Set([ws]))
   })
@@ -38,4 +36,15 @@ function sendMusicInfo(clients: Set<WebSocket> = wss.clients): void {
   })
 }
 
-export { sendMusicInfo, setCurrentMusic, setUpWebSocketServer }
+function restartWebsocketServer(): void {
+  wss.close()
+  startWebsocketServer()
+}
+
+function startWebsocketServer(): void {
+  const port = loadWebsocketPort()
+  wss = new WebSocketServer({ port })
+  console.log('Websocket server started with port: ' + port)
+}
+
+export { restartWebsocketServer, sendMusicInfo, setCurrentMusic, setUpWebSocketServer }

@@ -10,5 +10,6 @@ type CustomAPI = {
   loadPlaylist: () => Promise<Music[]>
   saveWebsocketPort: (port: number) => void
   loadWebsocketPort: () => Promise<number>
+  restartWebsocketServer: () => Promise<void>
   quit: () => void
 }
