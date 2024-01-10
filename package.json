@@ -26,6 +26,7 @@
     "howler": "^2.2.4",
     "music-metadata": "^7.14.0",
     "sortablejs": "^1.15.1",
+    "svelte-material-icons": "^3.0.5",
     "ws": "^8.16.0"
   },
   "devDependencies": {
