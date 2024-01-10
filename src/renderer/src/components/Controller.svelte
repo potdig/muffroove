@@ -44,6 +44,10 @@
     stateControl.set('pause')
   }
 
+  function saveVolume(): void {
+    window.api.saveVolume($volume)
+  }
+
   async function openFolder(): Promise<void> {
     const loaded = await window.api.openFolder()
     if (loaded.length > 0) {
@@ -85,6 +89,7 @@
       max="1"
       step="0.01"
       style="color: red;background: {volumeBackground};"
+      on:mouseup={saveVolume}
     />
     <VolumeHigh width={iconWidth} height={iconWidth} />
   </div>

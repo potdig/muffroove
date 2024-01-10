@@ -2,14 +2,16 @@ import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import { BrowserWindow, app, shell } from 'electron'
 import { join } from 'path'
 import icon from '../../resources/icon.png?asset'
+import { getWindowSize, setWindowSize } from './config'
 import { handleIpc } from './ipc'
 import { setUpWebSocketServer } from './websocket'
 
 function createWindow(): void {
+  const windowSize = getWindowSize()
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 900,
-    height: 670,
+    width: windowSize[0],
+    height: windowSize[1],
     show: false,
     frame: false,
     autoHideMenuBar: true,
@@ -37,6 +39,10 @@ function createWindow(): void {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }
 
+  mainWindow.on('close', () => {
+    const size = mainWindow.getSize()
+    setWindowSize([size[0], size[1]])
+  })
   // Handle IPC
   handleIpc()
 }
