@@ -1,4 +1,5 @@
 import ElectronStore from 'electron-store'
+import { Music } from '../types/music'
 
 const store = new ElectronStore()
 
@@ -18,4 +19,12 @@ function setVolume(volume: number): void {
   store.set('volume', volume)
 }
 
-export { getVolume, getWindowSize, setVolume, setWindowSize }
+function getPlaylist(): Music[] {
+  return store.get('playlist', []) as Music[]
+}
+
+function setPlaylist(playlist: Music[]): void {
+  store.set('playlist', playlist)
+}
+
+export { getPlaylist, getVolume, getWindowSize, setPlaylist, setVolume, setWindowSize }

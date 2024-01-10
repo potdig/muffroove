@@ -55,6 +55,7 @@
       currentIndex.set(0)
       musics.set(loaded)
       currentMusic.set(loaded[0])
+      window.api.savePlaylist(loaded)
     }
   }
 </script>

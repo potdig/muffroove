@@ -4,7 +4,11 @@ import type { PlayerState } from '../../../types/player-state'
 import { changeVolume, pauseSound, playSound, resumeSound, stopSound } from '../lib/player'
 import { loopPlaylist, volume } from './misc'
 
-const musics: Writable<Music[]> = writable([])
+const musics: Writable<Music[]> = writable([], set => {
+  window.api.loadPlaylist().then(playlist => {
+    set(playlist)
+  })
+})
 const currentIndex: Writable<number> = writable(0)
 const currentMusic: Writable<Music> = writable(undefined)
 const nowPlaying: Writable<boolean> = writable(false)

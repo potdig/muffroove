@@ -7,6 +7,8 @@ const customApi: CustomAPI = {
   sendMusicInfo: music => ipcRenderer.invoke('sendMusicInfo', music),
   saveVolume: volume => ipcRenderer.invoke('saveVolume', volume),
   loadVolume: async () => await ipcRenderer.invoke('loadVolume'),
+  savePlaylist: playlist => ipcRenderer.invoke('savePlaylist', playlist),
+  loadPlaylist: async () => await ipcRenderer.invoke('loadPlaylist'),
   quit: () => ipcRenderer.invoke('quit')
 }
 
