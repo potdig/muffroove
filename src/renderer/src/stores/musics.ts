@@ -29,6 +29,7 @@ stateControl.subscribe(control => {
       stopSound()
       nowPlaying.set(false)
       controllable.set(true)
+      window.api.sendMusicInfo(null)
       break
     case 'play':
       if (!np) {
