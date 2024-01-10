@@ -64,6 +64,25 @@
   #playlist-container {
     overflow: auto;
     width: 100%;
+    border-top: 1px solid gray;
+
+    &::-webkit-scrollbar {
+      width: 16px;
+    }
+
+    &::-webkit-scrollbar-button {
+      display: none;
+    }
+
+    &::-webkit-scrollbar-track,
+    &::-webkit-scrollbar-track-piece {
+      background: none;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #86a5b1;
+      border-radius: 8px;
+    }
   }
 
   hr {

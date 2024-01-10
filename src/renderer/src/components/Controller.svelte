@@ -83,7 +83,7 @@
   </div>
 </div>
 
-<style>
+<style lang="scss">
   #controller {
     width: 100%;
     max-width: 400px;
@@ -112,23 +112,27 @@
     border-color: inherit;
     border: 2px solid;
     border-radius: 50%;
+
+    &:disabled {
+      opacity: 0.5;
+    }
   }
 
   #volume {
     display: flex;
     gap: 0.4em;
     width: 100%;
-  }
 
-  #volume input {
-    flex: 1;
-    appearance: none;
-    background: none;
-    border: 1px solid;
-    border-color: #86a5b1;
-  }
+    input {
+      flex: 1;
+      appearance: none;
+      background: none;
+      border: 1px solid;
+      border-color: #86a5b1;
 
-  #volume input::-webkit-slider-thumb {
-    opacity: 0;
+      &::-webkit-slider-thumb {
+        opacity: 0;
+      }
+    }
   }
 </style>
