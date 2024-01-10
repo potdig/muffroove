@@ -4,7 +4,7 @@ import { readFileSync, readdirSync } from 'fs'
 import { parseFile } from 'music-metadata'
 import { sep } from 'path'
 import { Music } from '../types/music'
-import { sendMusicInfo } from './websocket'
+import { sendMusicInfo, setCurrentMusic } from './websocket'
 
 function handleIpc(): void {
   ipcMain.handle('loadFile', (_, path) => {
@@ -14,7 +14,8 @@ function handleIpc(): void {
   })
 
   ipcMain.handle('sendMusicInfo', (_, music) => {
-    sendMusicInfo(music)
+    setCurrentMusic(music)
+    sendMusicInfo()
   })
 
   ipcMain.handle('openFolder', async (): Promise<Music[]> => {
