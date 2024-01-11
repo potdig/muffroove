@@ -41,6 +41,13 @@
       })
     }
   }
+
+  function filename(path: string): string {
+    return path
+      .split(/[\\/]/)
+      .pop()
+      .match(/(.+)\..+/)[1]
+  }
 </script>
 
 {#if $musics.length > 0}
@@ -58,8 +65,14 @@
         >
           <hr />
           <div class="music-info">
-            <p class="title">{music.title}</p>
-            <p class="artist">{music.artist}</p>
+            <p class="title">{music.title ? music.title : filename(music.path)}</p>
+            <p class="artist">
+              {#if music.artist}
+                {music.artist}
+              {:else}
+                &nbsp;
+              {/if}
+            </p>
           </div>
         </div>
       {/each}
