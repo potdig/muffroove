@@ -1,20 +1,42 @@
-import { get, writable, type Writable } from 'svelte/store'
+import { derived, get, writable, type Writable } from 'svelte/store'
 import type { Music } from '../../../types/music'
 import type { PlayerState } from '../../../types/player-state'
-import { changeVolume, pauseSound, playSound, resumeSound, stopSound } from '../lib/player'
+import {
+  changeVolume,
+  loadSounds,
+  pauseSound,
+  playSound,
+  resumeSound,
+  stopSound
+} from '../lib/player'
 import { loopPlaylist, volume } from './misc'
 
+const currentIndex: Writable<number> = writable(0)
+const currentMusic: Writable<Music> = writable(undefined)
 const musics: Writable<Music[]> = writable([], set => {
   window.api.loadPlaylist().then(playlist => {
+    currentMusic.set(playlist[get(currentIndex)])
     set(playlist)
   })
 })
-const currentIndex: Writable<number> = writable(0)
-const currentMusic: Writable<Music> = writable(undefined)
 const nowPlaying: Writable<boolean> = writable(false)
 const stateControl: Writable<PlayerState> = writable('stop')
 const playerState: Writable<PlayerState> = writable('stop')
 const controllable: Writable<boolean> = writable(true)
+
+const musicsInCache = derived([musics, currentIndex], ([$musics, $currentIndex]) =>
+  $musics.slice($currentIndex, $currentIndex + 3)
+)
+
+musicsInCache.subscribe(musics => {
+  if (musics.includes(get(currentMusic))) {
+    loadSounds(musics)
+  }
+})
+
+currentIndex.subscribe(index => {
+  currentMusic.set(get(musics)[index])
+})
 
 stateControl.subscribe(control => {
   if (!controllable) {

@@ -16,7 +16,7 @@ import { restartWebsocketServer, sendMusicInfo, setCurrentMusic } from './websoc
 
 function handleIpc(): void {
   ipcMain.handle('loadFile', (_, path) => {
-    console.log(`Now Playing: ${path}`)
+    console.log(`Loading: ${path}`)
     const base64 = readFileSync(path, { encoding: 'base64' })
     return `data:audio/mpeg;base64,${base64}`
   })

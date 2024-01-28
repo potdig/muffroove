@@ -1,42 +1,72 @@
 import { Howl } from 'howler'
 import type { Music } from '../../../types/music'
-import { controllable, currentMusic, nowPlaying, stateControl } from '../stores/musics'
+import { controllable, nowPlaying, stateControl } from '../stores/musics'
 
-let currentSound: Howl
+const currentSounds: { [hash: string]: Howl } = {}
+let playingSound: Howl
+
+function loadSounds(musics: Music[]): void {
+  console.log(musics)
+  Object.keys(currentSounds).forEach(hash => {
+    if (!musics.find(music => music.hash === hash) && playingSound !== currentSounds[hash]) {
+      currentSounds[hash].unload()
+      delete currentSounds[hash]
+    }
+  })
+  musics.forEach(music => {
+    if (Object.keys(currentSounds).includes(music.hash)) {
+      return
+    }
+    window.api.loadFile(music.path).then(src => {
+      const sound = new Howl({
+        src: [src]
+      })
+      currentSounds[music.hash] = sound
+      sound.load()
+    })
+  })
+}
+
+function waitSoundFor(hash: string, callback: (howl: Howl) => void): Promise<void> {
+  if (!currentSounds[hash]) {
+    setTimeout(() => {
+      waitSoundFor(hash, callback)
+    }, 10)
+  } else {
+    callback(currentSounds[hash])
+  }
+}
 
 function playSound(music: Music): void {
-  window.api.loadFile(music.path).then(src => {
-    currentSound = new Howl({
-      src: [src]
-    })
-    currentSound.on('play', () => {
+  waitSoundFor(music.hash, sound => {
+    playingSound = sound
+    playingSound.on('play', () => {
       nowPlaying.set(true)
       // must change here to prevent duplicated control
       controllable.set(true)
-      currentMusic.set(music)
       window.api.sendMusicInfo(music)
     })
-    currentSound.on('end', () => {
+    playingSound.on('end', () => {
       stateControl.set('next')
     })
-    currentSound.play()
+    playingSound.play()
   })
 }
 
 function stopSound(): void {
-  currentSound?.stop()
-  currentSound?.seek(0)
+  playingSound?.stop()
+  playingSound?.seek(0)
 }
 
 function pauseSound(): void {
-  currentSound?.pause()
+  playingSound?.pause()
 }
 
 function resumeSound(): void {
-  currentSound?.play()
+  playingSound?.play()
 }
 
 function changeVolume(volume: number): void {
   Howler.volume(volume)
 }
-export { changeVolume, pauseSound, playSound, resumeSound, stopSound }
+export { changeVolume, pauseSound, playSound, resumeSound, stopSound, loadSounds }

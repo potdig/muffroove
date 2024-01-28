@@ -56,9 +56,9 @@
     const loaded = await window.api.openFolder()
     if (loaded.length > 0) {
       stateControl.set('stop')
-      currentIndex.set(0)
-      musics.set(loaded)
       currentMusic.set(loaded[0])
+      musics.set(loaded)
+      currentIndex.set(0)
       window.api.savePlaylist(loaded)
     }
   }
