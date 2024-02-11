@@ -27,7 +27,7 @@ function loadSounds(musics: Music[]): void {
   })
 }
 
-function waitSoundFor(hash: string, callback: (howl: Howl) => void): Promise<void> {
+function waitSoundFor(hash: string, callback: (howl: Howl) => void): void {
   if (!currentSounds[hash]) {
     setTimeout(() => {
       waitSoundFor(hash, callback)
